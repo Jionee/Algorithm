@@ -16,3 +16,4 @@ commands의 각 원소는 길이가 3입니다.
 
 ### Note
 * Arrays.sort(arr);
+* int[] temp = Arrays.copyOfRange(array, commands[i][0]-1, commands[i][1]);
