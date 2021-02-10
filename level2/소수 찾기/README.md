@@ -43,3 +43,6 @@ def isDecimal(num):
             return False
     return True
 ```
+
+++ 에라토스테네스 체 추가 공부
+++ 파이썬 순열,조합 > https://potensj.tistory.com/110
