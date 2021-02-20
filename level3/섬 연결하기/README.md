@@ -22,3 +22,10 @@ union-find 알고리즘, Kruskal 알고리즘 사용
 * Kruskal 알고리즘
 가중치로 sorting하여 최소 비용의 순서대로 싸이클을 형성하지 않는 조건하에 노드들을 연결한다.   
 그 순간의 선택으로 Greedy하게 모든 노드들을 최소 비용으로 연결 가능하다.
+
+참고   
+Kruskal,Union-find
+* https://www.youtube.com/watch?v=LQ3JHknGy8c   
+* https://velog.io/@woo0_hooo/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-union-find-%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98   
+Lambda 문법 정리   
+* https://wikidocs.net/64
