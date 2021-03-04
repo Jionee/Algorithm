@@ -35,3 +35,6 @@ final_dict = defaultdict(lambda:[]) # or defualtdict(list)
  from operator import itemgetter
  genre_rank = [genre for genre,play in sorted(genre_play_dict.items(), key=itemgetter(1),reverse=True)]
 ```
+
+* zip tuple
+https://medium.com/@hckcksrl/python-zip-%EB%82%B4%EC%9E%A5%ED%95%A8%EC%88%98-95ad2997990
