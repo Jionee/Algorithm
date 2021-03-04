@@ -38,3 +38,8 @@ final_dict = defaultdict(lambda:[]) # or defualtdict(list)
 
 * zip tuple
 https://medium.com/@hckcksrl/python-zip-%EB%82%B4%EC%9E%A5%ED%95%A8%EC%88%98-95ad2997990
+
+
+```
+index_dict[genre]=sorted(index_dict[genre], key=lambda x:(-x[0],x[1])) #lambda로 정렬하기 (첫번째꺼, 두번째꺼)
+```
