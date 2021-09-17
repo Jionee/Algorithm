@@ -11,16 +11,16 @@ word = [input() for _ in range(N)]
 basic = {"a","n","t","i","c"} #무조건 배워야 하는 글자 수
 learnNum = K - len(basic)
 #print("learnNum",learnNum)
-if learnNum < 0:
+if learnNum < 0: #가능한 글자수가 너무 작은 경우
     print(0)
     exit()
-if K == 26:
+if K == 26: #뭐든 가능
     print(N)
     exit()
 
 wordSetList = []
 for w in word:
-    if len(set(list(w))-basic) > learnNum:
+    if len(set(list(w))-basic) > learnNum: #어차피 못하는 애들은 추가X
         continue
     else:
         wordSetList.append(set(list(w))-basic)

@@ -57,8 +57,3 @@ if success:
     print(cnt+1)
 else:
     print("KAKTUS")
-
-
-
-
-
