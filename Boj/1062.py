@@ -4,54 +4,40 @@ from itertools import combinations
 def input():
     return sys.stdin.readline().rstrip()
 
+candidates = ['b','d','e','f','g','h','j','k','l','m','o','p','q','r','s','u','v','w','x','y','z'] #총 21개
+must = {'a','n','t','i','c'}
+
 N, K = map(int, input().split())
-word = [input() for _ in range(N)]
-#print("word",word)
+input_word = [input() for _ in range(N)]
+#print("word",word,N,K)
 
-basic = {"a","n","t","i","c"} #무조건 배워야 하는 글자 수
-learnNum = K - len(basic)
-#print("learnNum",learnNum)
-if learnNum < 0: #가능한 글자수가 너무 작은 경우
+word = []
+for i in range(N):
+    word.append(list(set(input_word[i]) - must))
+#print("sdfsdf",word)
+
+bit_word = [0] * N
+for i, W in enumerate(word):
+    for w in W:
+        bit_word[i] |= 1 << ord(w) - ord('a') #해당하는 각 비트에 1 세팅 #1이 하나라도 존재하면 1로 세팅
+#print(bit_word)
+if K < 5:
     print(0)
-    exit()
-if K == 26: #뭐든 가능
+elif K == 26:
     print(N)
-    exit()
+else:
+    #combination사용
+    #가능한 k-5개의 알파벳들의 조합을 구하려면 2의 n승들의 집합에서 k-5개를 뽑은 후 sum 시킨 애를 구하면 됨
+    power_of_2 = [2 ** i for i in range(26)]
+    max_count = 0
 
-wordSetList = []
-for w in word:
-    if len(set(list(w))-basic) > learnNum: #어차피 못하는 애들은 추가X
-        continue
-    else:
-        wordSetList.append(set(list(w))-basic)
-
-#print("wordSetList",wordSetList)
-
-toLearn = set()
-for wo in wordSetList:
-    toLearn = toLearn | wo #합집합
-#print("toLearn",toLearn)
-
-if len(toLearn) <= learnNum: #무조건 다 배울 수 있음
-    print(N)
-    exit()
-
-alphComb = combinations(toLearn,learnNum)
-#print("alphComb",alphComb)
-
-cntList = []
-for comb in alphComb:
-    #print(set(comb))
-    cnt = 0
-    for wordSet in wordSetList:
-        if len(wordSet - set(comb)) == 0:
-            cnt += 1
-    cntList.append(cnt)
-
-print(max(cntList))
-
-# 4 8
-# antartica
-# antarbtica
-# antaelhtica
-# antabtica
+    for comb in combinations(power_of_2 , K-5):
+        current = sum(comb)
+        count = 0
+        for bit in bit_word:
+            #test가 얼마나 만족하는지 확인
+            if bit & current == bit:
+                count += 1
+        if count > max_count:
+            max_count = count
+    print(max_count)
