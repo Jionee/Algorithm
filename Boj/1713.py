@@ -1,5 +1,4 @@
 import sys
-from collections import deque
 
 def input():
     return sys.stdin.readline().rstrip()
@@ -17,7 +16,6 @@ R = map(int,input().split())
 #삭제시 추천 수 0으로 update -> (아예 dic에서 pop시켜버리자)
 
 candidate = {}
-#picture = deque()
 
 for i,r in enumerate(R):
     #액자가 가득 찼을 때
