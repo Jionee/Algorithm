@@ -1,5 +1,5 @@
 import sys
-sys.setrecursionlimit(10**6)
+sys.setrecursionlimit(10**5)
 
 N = int(sys.stdin.readline().rstrip())
 
@@ -11,27 +11,25 @@ answer = 0
 
 dir = [[-1,-1],[-1,1],[1,-1],[1,1]]#대각선 왼위,오위,왼아래,오아래
 
+def Checkdiagnal(pos, queenlist):
+    x, y = pos
+    for queen in queenlist:
+        qx, qy = queen
+        if abs(x - qx) == abs(y - qy):
+            return False
+    return True
+
 def dfs(queen,next_queen):
     global answer
     #종료조건
     #열 검사
-    #print(queen,next_queen)
     if next_queen in queen:
         return #이미 있으면 안됨
 
-    대각선 검사
-    for d in dir:
-        for k in range(1,N+1):
-            dia_row, dia_column = len(queen) + d[0]*k, next_queen + d[1]*k
-            if (dia_row>=0 and dia_row<N) and (dia_column>=0 and dia_column<N):
-                for queen_row,queen_column in enumerate(queen):
-                    if (dia_row == queen_row) and (dia_column == queen_column): #대각선에 있으면
-                        return
-    # diagonal check
-    # for row, column in enumerate(queen):
-    #     h = len(queen) - row
-    #     if next_queen == column + h or next_queen == column - h:
-    #         return
+    # 대각선 검사
+    for queen_row,queen_column in enumerate(queen):
+        if abs(len(queen) - queen_row) == abs(next_queen - queen_column): #대각선에 존재
+            return
 
     queen.append(next_queen) #대각선에 없으면 queen에 추가, 다음 진행
 
