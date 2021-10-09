@@ -9,16 +9,6 @@ N = int(sys.stdin.readline().rstrip())
 
 answer = 0
 
-dir = [[-1,-1],[-1,1],[1,-1],[1,1]]#대각선 왼위,오위,왼아래,오아래
-
-def Checkdiagnal(pos, queenlist):
-    x, y = pos
-    for queen in queenlist:
-        qx, qy = queen
-        if abs(x - qx) == abs(y - qy):
-            return False
-    return True
-
 def dfs(queen,next_queen):
     global answer
     #종료조건
@@ -43,6 +33,6 @@ def dfs(queen,next_queen):
 
 for n in range(N):
     queen = []
-    dfs(queen,n) # 행우선
+    dfs(queen,n) #0행에 들어갈 열들 지정 #0열,1열,2열...n-1열까지 돌면서 경우의 수 확인
 
 print(answer)
