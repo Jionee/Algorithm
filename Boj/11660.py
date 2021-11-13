@@ -6,7 +6,7 @@ N, M = map(int,input().split(" "))
 maps = [list(map(int,input().split(" "))) for _ in range(N)]
 #print(maps)
 toCal = [list(map(int,input().split(" "))) for _ in range(M)]
-print("cal : ",toCal)
+#print("cal : ",toCal)
 
 # (0,0)부터 (N,N)까지의 합을 구해놓기
 dp = [[0 for _ in range(N)]  for _ in range(N)]
@@ -18,22 +18,26 @@ for r in range(N):
             dp[r][c] = dp[r-1][N-1] + maps[r][c]
         else:
             dp[r][c] = dp[r][c-1] + maps[r][c]
-print("dp테이블 : ",dp)
+#print("dp테이블 : ",dp)
 
 def calculate(cal):
     a,b,c,d = cal
     a -= 1
-    b-=1
-    c-=1
-    d-=1
+    b -= 1
+    c -= 1
+    d -= 1
     if a==c and b==d:
-        return dp[a][c]
+        return maps[a][b]
     sum = 0
     for row in range(a,c+1):
-
-        sum += dp[row][d] - dp[row][b-1]
-        print("===", row, d, "-", row, b - 1,"sum : ",sum)
-        print(dp[row][d] ,dp[row][b-1])
+        if b == 0:
+            sum += dp[row][d]
+            if row != 0:
+                sum -= dp[row-1][N-1]
+        else:
+            sum += dp[row][d] - dp[row][b-1]
+        # print("===", row, d, "-", row, b - 1,"sum : ",sum)
+        # print(dp[row][d] ,dp[row][b-1])
     return sum
 
 for cal in toCal:
