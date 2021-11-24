@@ -6,31 +6,26 @@ N,S = map(int,input().split(" "))
 su = list(map(int,input().split(" ")))
 #print(su)
 
+#투 포인터 사용
+#start,end를 0부터 시작하도록 한다.
+#0부터 N-1까지 start를 증가시키면서 연속된 수의 합을 구할 건데, '연속된 수들의 합'이므로 양 끝 포인터들을 더하고 빼면서 시간 초과를 피할 수 있다.
+#한 start에서 end가 끝까지(N-1)까지 갔다면 그 다음 start에서는 절대 S이상을 낼 수 없다.
+
 answer = float('inf')
-#연속된 수들의 부분합 중에 합이 S이상이 되는 것 중, 가장 짧은 길이
-#일단 0부터 각 i까지의 합을 구해놓기
-dp = [0 for _ in range(N)]
-dp[0] = su[0]
-
-for i in range(1,N):
-    dp[i] = dp[i-1] + su[i]
-    if dp[i] >= S:
-        answer = i + 1
-#print(dp)
-
-#합 생성 불가
-if dp[-1] < S:
-    print(0)
-    exit()
-
-#각 자리부터 돌면서 연속된 거 중에 S보다 큰거 찾기
-for i in range(1,N):
-    for k in range(i,N):
-        target = dp[k] - dp[i-1]
-        if target >= S:
-            answer = min(answer,k-i+1)
+cum_sum = su[0]
+start,end = 0,0
+while start < N:
+    if cum_sum >= S: #S이상일 때
+        answer = min(answer, end - start + 1)
+        cum_sum -= su[start]
+        start += 1
+    else: #합이 S이하일 때
+        end += 1
+        if end == N: #end가 끝까지 왔으면
             break
-    #0이면 그냥 dp
-    #1이면 dp[i]-dp[i-1]
+        cum_sum += su[end]
 
-print(answer)
+if answer == float('inf'):
+    print(0)
+else:
+    print(answer)
