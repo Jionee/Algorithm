@@ -12,7 +12,6 @@ arr = input()
 
 answer = 0
 brackets = ["(",")","[","]"]
-pre = 1
 stck = []
 brackets_dict = {"(":0,")":0,"[":0,"]":0}
 
