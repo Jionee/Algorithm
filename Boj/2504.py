@@ -10,38 +10,61 @@ arr = input()
 # 올바른 괄호열 : 제대로 쌍 맞춰서 닫혀야 함
 # 스택 활용 -> stack에 넣다가 쌍 발견하면 pop, 값 계산
 
-# (()[[]]) ([])
-# 2*((2)+3*(3))
-#같은 부호 -  부호 방향 같음 (( )) [[ ]]
-        #  부호 방향 다름 () )( [] ][
-#다른 부호 - 부호 방향 같음 ([ [( )] ])
-        #  부호 방향 다름 (] [) )[ ]( # 열리고 닫히기 전에 쌍이 안나오면 안됨
-
-#괄호 닫고, 새로운 괄호 열었을 때 + 삽입
-
-#  (( () ([ (] [( [) [[ []   )(
-#2*괄호 2  +  0  +  0 3*괄호 3  +
-
-#종류마다 여는 괄호 수랑, 닫는 괄호 수랑 다르면
-
 answer = 0
-category = { '(':2 , ')':6 , '[':3 , ']':7 }
+brackets = ["(",")","[","]"]
 pre = 1
 stck = []
+brackets_dict = {"(":0,")":0,"[":0,"]":0}
 
-for a in arr:
+for i,a in enumerate(arr):
+    if i < len(arr)-1:
+        if (arr[i] == '(' and arr[i+1] == ']') or (arr[i] == '[' and arr[i+1] == ')'):
+            print(0)
+            exit()
+    brackets_dict[a]+=1
+#print(brackets_dict)
+if not (brackets_dict["("] == brackets_dict[")"] and brackets_dict["["] == brackets_dict["]"]):
+    print(0)
+    exit()
+
+def function(a,stck):
     if a == '(' or a == '[': #여는 괄호이면
         stck.append(a)
     else: #닫는 괄호이면
-        if category(stck[-1]) > 5: #꺼내는게 닫는 괄호
-            b = stck.pop()
-            if category[a] % 4 == category[b] % 4:  # 같은 종류이면
-                pre = pre * category[a]
-            else:
-                print(0)
-                exit()
-        else: #꺼내는게 여는 괄호
-            answer += pre
-            pre = 1
+        if stck[-1] not in brackets: #숫자면
+            if stck[-2] not in brackets: #두번째꺼도 숫자면
+                stck.append(stck.pop() + stck.pop()) #더하기
+                #stck.append(a)
+                function(a,stck)
+            else: #맞는 짝이면 해당 숫자
+                if stck[-2] == '(' and a == ')':
+                    f, s = stck.pop(), stck.pop()
+                    stck.append(f * 2)
+                elif stck[-2] == '[' and a == ']':
+                    f, s = stck.pop(), stck.pop()
+                    stck.append(f * 3)
+        else: #숫자가 아니라 닫는 괄호 중 맞는 괄호면
+            if stck[-1] == '(' and a == ')':
+                stck.pop()
+                stck.append(2)
+            elif stck[-1] == '[' and a ==']':
+                stck.pop()
+                stck.append(3)
+    #print("===", a, "===", stck)
+def isNumber(stck):
+    for s in stck:
+        if s in brackets:
+            return True
+    return False
 
-print(answer)
+for a in arr:
+    function(a,stck)
+
+while isNumber(stck):
+    function(stck[-1],stck)
+
+print(sum(stck))
+
+#괄호 열렸으면 닫혀야함 #stack에 담다가 닫는거 나왔을 때 맨 위에꺼가 짝이랑 맞으면 (숫자면 숫자 * 로 계산) (숫자 다음에 맞는 괄호면 *, 숫자 다음에 또 숫자면 +)
+# ( ( )
+# ( 2 9
