@@ -1,4 +1,2 @@
-test.java
- test
-test2.java
- test2
+Boj1759.java
+ Boj1759
