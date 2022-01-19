@@ -12,6 +12,7 @@ public class Boj3055 {
     static boolean foundAnswer;
 
     // 좌,우,위,아래
+
     static int[] mx = {-1,1,0,0};
     static int[] my = {0,0,-1,1};
 
