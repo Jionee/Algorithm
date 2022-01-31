@@ -3,10 +3,10 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-public class Boj11404 {
+public class Boj11404_플로이드 {
     static int N,M;
     static int[][] adjacentMatrix; //인접행렬
-    static final int INF = Integer.MAX_VALUE;
+    static final int INF = 1000000000;
 
     public static void main(String[] args) throws Exception{
         System.setIn(new FileInputStream("src/main/java/input.txt"));
@@ -16,6 +16,16 @@ public class Boj11404 {
         M = Integer.parseInt(br.readLine());
         adjacentMatrix = new int [N+1][N+1];
 
+        //행렬 초기화
+        for(int i=1;i<N+1;i++){
+            for(int j=1;j<N+1;j++){
+                if(i==j)
+                    adjacentMatrix[i][j] = 0;
+                else
+                    adjacentMatrix[i][j] = INF;
+            }
+        }
+
         //행렬 구성하기
         for(int m=0;m<M;m++){
             StringTokenizer st = new StringTokenizer(br.readLine());
@@ -23,7 +33,7 @@ public class Boj11404 {
             int end = Integer.parseInt(st.nextToken()) ;
             int weight = Integer.parseInt(st.nextToken()) ;
             //더 좋은 값을 가져야 함
-            if(adjacentMatrix[start][end] == 0 || adjacentMatrix[start][end] > weight){
+            if(adjacentMatrix[start][end] > weight){
                 adjacentMatrix[start][end] = weight;
             }
         }
@@ -34,10 +44,10 @@ public class Boj11404 {
             for(int start=1;start<N+1;start++){
                 for(int end=1;end<N+1;end++){ //쌍 만들기
                     //init(j)->middle(i)->end(k)  init(j)->end(k)비교, 앞에거가 더 크다면 갱신
-                    if(start!=end && adjacentMatrix[start][middle] != 0 && adjacentMatrix[middle][end]!=0){
+                    if(start!=end){
                         int initToMiddleToEnd = adjacentMatrix[start][middle] + adjacentMatrix[middle][end];
                         int initToEnd = adjacentMatrix[start][end];
-                        if(adjacentMatrix[start][end] == 0 || initToMiddleToEnd < initToEnd){
+                        if(initToMiddleToEnd < initToEnd){
                             adjacentMatrix[start][end] = initToMiddleToEnd;
                         }
                     }
@@ -48,7 +58,12 @@ public class Boj11404 {
         //출력
         for(int i=1;i<N+1;i++){
             for(int j=1;j<N+1;j++){
-                System.out.print(adjacentMatrix[i][j] +" ");
+                if(adjacentMatrix[i][j] == INF){
+                    System.out.print("0" +" ");
+                }
+                else{
+                    System.out.print(adjacentMatrix[i][j] +" ");
+                }
             }
             System.out.println();
         }
