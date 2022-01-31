@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-public class Boj11266 {
+public class Boj11266_단절점 {
     static int V,E;
     static ArrayList<Integer>[] adjacentList; //한 노드에서 인접한 노드들의 정보를 가져와야 하므로 -> 인접리스트 사용
     static boolean[] isCutVertex; //각 노드별 단절점 여부 기록
