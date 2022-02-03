@@ -141,25 +141,27 @@ public class Boj3955 {
         }
         return new EGResult(s0,t0,r0);
     }
+
+    static class EGResult{
+        long s;
+        long t;
+        long r;
+
+        public EGResult(long s, long t, long r) {
+            this.s = s;
+            this.t = t;
+            this.r = r;
+        }
+
+        @Override
+        public String toString() {
+            return "EGResult{" +
+                    "s=" + s +
+                    ", t=" + t +
+                    ", r=" + r +
+                    '}';
+        }
+    }
 }
 
-class EGResult{
-    long s;
-    long t;
-    long r;
 
-    public EGResult(long s, long t, long r) {
-        this.s = s;
-        this.t = t;
-        this.r = r;
-    }
-
-    @Override
-    public String toString() {
-        return "EGResult{" +
-                "s=" + s +
-                ", t=" + t +
-                ", r=" + r +
-                '}';
-    }
-}
