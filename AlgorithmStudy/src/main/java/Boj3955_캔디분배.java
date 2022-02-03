@@ -4,7 +4,7 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 import java.util.concurrent.ExecutionException;
 
-public class Boj3955 {
+public class Boj3955_캔디분배 {
     static int T;
 
     public static void main(String[] args) throws Exception {
@@ -31,7 +31,7 @@ public class Boj3955 {
             //C % D !=0 -> 해가 없음
             EGResult result = extendedGcd(A,B);
             long D = result.r;
-            if(result.r != 1){ //해를 가질 수 있음
+            if(1 % result.r != 0){ //해를 가질 수 있음
                 System.out.println("IMPOSSIBLE");
                 continue;
             }
@@ -48,7 +48,6 @@ public class Boj3955 {
                 //(4번을 유도해내지 못했을 때) while <-k-> 이동시키면서 찾아도 됨
 
                 //4. k의 범위
-                //D = 1임을 문제에서 알 수 있음
                 //x < 0
                 //x0 + B * k < 0
                 //k < -x0 / B
@@ -63,7 +62,7 @@ public class Boj3955 {
 
                 //< -> ceil
                 //<= -> floor
-                //등호가 있기 때문에 천장함수를 이용해서 ceil 후에 -1을 한다.
+                //등호가 없기 때문에 천장함수를 이용해서 ceil 후에 -1을 한다.
                 long kFromY = (long) Math.ceil((double)y0/(double)A) - 1; //double로 나누어야 소숫점이 안날아감
                 long kFromX = (long) Math.ceil((double)-x0/(double)B) - 1; //double로 나누어야 소숫점이 안날아감
                 //둘을 만족하는 K = 둘을 만족하는 값 중 최소값
@@ -73,6 +72,7 @@ public class Boj3955 {
                 //5. 만족하는 K가 있는지 찾고 k를 통해 y를 구한다.
                 if(kLimitFromY <= k){
                     //조건을 만족하는 Y값 찾기
+                    //아무거나 하나만 출력하면 되므로 k로 했음 (kLimitFromY로 해도 됨)
                     System.out.println(y0 - A * k);
                 }
                 else{
@@ -80,42 +80,6 @@ public class Boj3955 {
                 }
             }
         }
-        //X : 인당 나눠줄 사탕의 수
-        //Y : 사탕 봉지의 수(??)
-        //A * x + 1 = B * Y
-        //AX +By = C의 형태로 변환
-        //-Ax + By = 1
-        //A(-x) + By = 1의 형태로 변환 //A=문제K,B=문제C
-
-        //1. 해 검증
-        //D = gcd(A,B) = egcd(A,B).r
-        //Ax + By = C 일때 C % D==0이어야 해를 가질 수 있음 : 배주 항등식
-        //C % D !=0 -> 해가 없음
-
-        //2. 초기 해 구하기
-        //x0 = s * C / D
-        //y0 = t * C / D
-
-        //3. 일반해 구하기
-        //x = x0 + B/D * k
-        //y = y0 - A/D * k
-
-        //4. k의 범위
-        //D = 1임을 문제에서 알 수 있음
-        //x < 0
-        //x0 + B * k < 0
-        //k < -x0 / B
-
-        //0 < y <= 1e9
-        //0 < y0 - A * k <= 1e9
-        //-y0 < -A * k <= 1e9 -y0
-        //(y0 - 1e9) / A <= k < y0 / A
-
-        //(y0 - 1e9) / A <= k < y0 / A
-        //                  k < -x0 / B
-
-        //5. 만족하는 K가 있는지 찾고 k를 통해 y를 구한다.
-
     }
 
     static EGResult extendedGcd(long a,long b){
