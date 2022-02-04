@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class Boj1837 {
+public class Boj1837_암호제작 {
     static int MAX = 1000000;
     static String P;
     static int K;
