@@ -39,6 +39,10 @@ public class Boj11438_LCA2 {
 //            K *= 2;
 //        }
         K = getLogN(); //SparseTable의 K값
+        int K2 = getLogN2();
+        System.out.println("111 "+K);
+        System.out.println("222 "+K2);
+
         SparseTable = new int[K+1][N+1];
 
         //1. bfs돌려서 depth 구하기
@@ -63,6 +67,17 @@ public class Boj11438_LCA2 {
     static int getLogN(){ //tree의 높이 구하기(sparseTable의 i 크기)
         int logN = 0;
         for(int i=1;i<N;i*=2){
+            logN++;
+        }
+        return logN;
+    }
+
+    static int getLogN2(){
+        int k=1;
+        int logN = 0;
+
+        while(k < N){
+            k *= 2;
             logN++;
         }
         return logN;
@@ -105,7 +120,7 @@ public class Boj11438_LCA2 {
             //그러면 a가 2의i승(2의0승 = 1)만큼 올라가고, 높이차이는 4가 됨
             //0b100, i가 1일 때 0b100 & 0b10 = 0 이므로 올라가지 않음
             //       i가 2일 때 ob100 & 0b100 = 1 이므로 올린다. 2의i승(2의2승 = 4)만큼 올라가고, 둘의 높이가 같아짐
-            if(((depth[b]-depth[a]) & (1<<i)) >= 1){
+            if(((depth[a]-depth[b]) & (1<<i)) >= 1){
                 a = SparseTable[i][a];
             }
         }
