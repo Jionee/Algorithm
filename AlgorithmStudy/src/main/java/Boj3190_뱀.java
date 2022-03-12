@@ -61,7 +61,7 @@ public class Boj3190_뱀 {
         deque.addLast(new Point(newRow,newCol)); //맨끝에 머리 추가
 
         int count=0;
-        for (Point point : deque) {
+        for (Point point : deque){
             if(newRow==point.row && newCol==point.col){
                 count++;
             }
