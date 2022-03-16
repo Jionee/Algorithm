@@ -1,5 +1,22 @@
-# Programmers && BOJ
+# Algorithm
+즐거운 알고리즘 시간이 돌아왔습니다!   
+일주일에 5문제를 목표로 합니다   
 
+#### 👇👇 참고 👇👇
+* DFS, 백트래킹, BFS   
+https://adorable-aspen-d23.notion.site/Algorithm-DFS-BFS-c50362e46004431480d2b20a408cbf68
 
-#### 👇👇 Solutions 👇👇
-https://adorable-aspen-d23.notion.site/Coding-Test-fcbe67b03e3e46d9a769b4b086d1c221
+* 자바 꿀팁   
+https://adorable-aspen-d23.notion.site/Algorithm-0-e948582b835940cbbe98f14c4bba6708
+
+* 알고리즘 기초   
+https://adorable-aspen-d23.notion.site/Algorithm-1-3bca789eed5a474b80c470ccdb8ede3d
+
+* 자료구조   
+https://adorable-aspen-d23.notion.site/Algorithm-2-d716b57f875f4b97b2189f4dca8e0d16
+
+* 정수론   
+https://adorable-aspen-d23.notion.site/Algorithm-3-8a48c55d7a104c55acae457757c06dfa
+
+* 그래프   
+https://adorable-aspen-d23.notion.site/Algorithm-5-74e8fa4f65e749448397898b1109de26
