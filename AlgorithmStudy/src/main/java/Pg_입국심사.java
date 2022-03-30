@@ -1,4 +1,6 @@
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 
 public class Pg_입국심사 {
     public static void main(String[] args) {
@@ -9,9 +11,13 @@ public class Pg_입국심사 {
         //sum < n
         //sum == n
         //sum > n
+        int num = 10;
+        String str = String.valueOf(num);
+
 
         int n=0;
-        int[] times=new int[0];
+        int[] times=null;
+
         long answer = 0;
         //시간이 순차적으로 간다는 생각 버리기
         //시간이 말도 안되게 크다 -> 호옥시 이분탐색? 말안되지만 그래도 호옥시 가능?
