@@ -8,6 +8,7 @@ public class Boj15684_사다리조작 {
     static int N,M,H;
     static ArrayList<Integer>[] Arr;
     static int answer = Integer.MAX_VALUE;
+    static boolean[][] visit;
 
     public static void main(String[] args) throws Exception{
         System.setIn(new FileInputStream("src/main/java/input.txt"));
@@ -18,6 +19,8 @@ public class Boj15684_사다리조작 {
         N = Integer.parseInt(st.nextToken()); //세로
         M = Integer.parseInt(st.nextToken());
         H = Integer.parseInt(st.nextToken()); //가로
+        visit = new boolean[H+1][N]; //방문 배열
+
         Arr = new ArrayList[N+1];
         for(int i=0;i<N+1;i++){
             Arr[i] = new ArrayList<>();
@@ -25,33 +28,55 @@ public class Boj15684_사다리조작 {
 
         for(int i=1;i<M+1;i++){
             st = new StringTokenizer(br.readLine());
-            int a = Integer.parseInt(st.nextToken());
-            int b = Integer.parseInt(st.nextToken());
-            Arr[b].add(a);
-        }
-
-        for(int i=0;i<Arr.length;i++){ //1~2, 2~3, 3~4범위에 몇 번째 가로에 사다리가 존재하는지
-            if(Arr[i].size()%2!=0){ //홀수면 맞춰야 함
-                //홀수인 애에 더이상 놓을 수 있는애 없으면 -1, 시스템 종료
-                //놓을 수 있는애 있으면 그거 놓고 dfs로 그다음애 진행
-                dfs(Arr[i],i,0);
-                break;
-            }
+            int row = Integer.parseInt(st.nextToken());
+            int col = Integer.parseInt(st.nextToken());
+            Arr[col].add(row); //col~col+1에 row번째 사다리가 존재한다.
+            visit[row][col] = true; //방문처리
         }
 
         if(isRight()){ //맨처음 상태 체크
             System.out.println(0);
             return;
         }
-        if(answer==Integer.MAX_VALUE){
-            System.out.println(-1);
-        }
-        else{
-            System.out.println(answer);
+
+        for(int i=1;i<=3;i++){ //사다리 i개 설치하는 경우
+            newDfs(1,1,0,i);
         }
 
-        //불가능한 경우
+        if(answer==Integer.MAX_VALUE){ //갱신이 이루어지지 않은 경우는 불가능한 경우
+            System.out.println(-1);
+        }
     }
+
+    static void newDfs(int C,int R, int count,int num){
+        if(count >= num){
+            if(isRight()){ //i번째가 i번째에 도달하는지 확인
+                answer = Math.min(answer,count);
+                System.out.println(answer);
+                System.exit(0);
+            }
+            return;
+        }
+        if(count>3){
+            return;
+        }
+
+        for(int col=C;col<N;col++){ //세로
+            for(int row=R;row<H+1;row++){ //가로
+                if(!visit[row][col]){ //방문체크
+                    if(isOk(col,row)){ //놓을 수 있는지 체크(양옆에 사다리 있니?)
+                        visit[row][col] = true;
+                        Arr[col].add(row);
+                        newDfs(col,row,count+1,num);
+                        Arr[col].remove(Arr[col].size()-1); //백트래킹
+                        visit[row][col] = false;
+                    }
+                }
+            }
+            R = 1; //다음은 row가 다시 1부터 시작해야 하므로
+        }
+    }
+
     static void dfs(ArrayList<Integer> Range, int col, int count){
         //System.out.println(Range+"," +col+" -> COUNT : "+count);
 
@@ -100,18 +125,17 @@ public class Boj15684_사다리조작 {
         }
     }
 
-    static boolean isRight(){
+    static boolean isRight(){ //i가 i로 도착하는지 확인
         for(int i=1;i<=N;i++){
             int now = i;
 
-            for(int row = 1;row <= H;row++){
-                int front = now-1;
-                int back = now;
-                if(0<front && front<=N-1){
-                    for(int item:Arr[front]){
+            for(int row = 1;row <= H;row++){ //가로 한 칸씩 내려가면서 i가 어디로 가있는지 확인하자
+                int front = now-1; //왼쪽 사다리 볼거임
+                int back = now; //오른쪽 사다리 볼거임
+                if(0<front && front<=N-1){ //범위 체크
+                    for(int item:Arr[front]){ //front~front+1사이에 사다리가 있을 때 row번째 애인지 체크
                         if(item==row){
-                            //있으면 거기로 이동
-                            now = front;
+                            now = front; //있으면 거기로 이동
                             break;
                         }
                     }
@@ -119,34 +143,33 @@ public class Boj15684_사다리조작 {
                 if(0<back && back<=N-1){
                     for(int item:Arr[back]){
                         if(item==row){
-                            //있으면 거기로 이동
-                            now = back+1;
+                            now = back+1; //있으면 거기로 이동
                             break;
                         }
                     }
                 }
             }
-            if(now!=i){
+            if(now!=i){ //i가 i로 오지 않았으면 false 리턴
                 return false;
             }
         }
-        return true;
+        return true; //다 i로 무사히 온 것이므로 true 리턴
     }
 
-    static boolean isOk(int col, int i){ //col~col+1의 i번째 가로에 사다리를 놓을 수 있을까?
+    static boolean isOk(int col, int row){ //col~col+1의 i번째 가로에 사다리를 놓을 수 있을까?
         //col 앞,뒤를 봐서 i가 존재하는지 확인 -> 존재하면 false 존재하지않으면 true
-        int front = col-1;
-        int back = col;
-        if(0<front && front<=N-1){
+        int front = col-1; //col의 앞 사다리
+        int back = col+1; //col의 뒷 사다리
+        if(0<front && front<=N-1){ //범위체크
             for(int item:Arr[front]){
-                if(item==i){
+                if(item==row){
                     return false;
                 }
             }
         }
         if(0<back && back<=N-1){
             for(int item:Arr[back]){
-                if(item==i){
+                if(item==row){
                     return false;
                 }
             }
