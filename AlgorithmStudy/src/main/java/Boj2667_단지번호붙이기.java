@@ -45,8 +45,8 @@ public class Boj2667_단지번호붙이기 {
         while(!queue.isEmpty()){
             System.out.println(queue.poll());
         }
-
     }
+
     public static void dfs(int row, int col){
         for(int i=0;i<4;i++){
             int newRow = row + dRow[i];
