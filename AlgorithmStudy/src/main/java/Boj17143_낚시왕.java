@@ -100,13 +100,6 @@ public class Boj17143_낚시왕 {
 						Shark big = Map[i][j].poll();
 						Map[i][j] = new PriorityQueue<>();
 						Map[i][j].add(big);
-						//System.out.println(c+"  두마리이상 "+Map[i][j]);
-//						int size = Map[i][j].size();
-//						for(int s=0;s<size-1;s++) {
-//							//System.out.println(Map[i][j].size() + "S제거!!! : "+s+"  "+Map[i][j].poll());
-//							Map[i][j].poll(); //제일큰거만 남기기
-//						}
-						//System.out.println("제일큰것만 남기기"+Map[i][j]);
 					}
 				}
 			}
