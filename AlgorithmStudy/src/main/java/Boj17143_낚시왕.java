@@ -45,7 +45,7 @@ public class Boj17143_낚시왕 {
 			}
 			
 			Map[r][c].add(new Shark(s,d,z));
-			System.out.println(Map[r][c]);
+			//System.out.println(Map[r][c]);
 		}
 		
 		//start

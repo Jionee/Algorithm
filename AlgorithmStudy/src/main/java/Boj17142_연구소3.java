@@ -114,6 +114,11 @@ class Boj17142_연구소3 {
 //					&& ActiveVirus.get(2).row==4 && ActiveVirus.get(2).col==1 && ActiveVirus.get(3).row==7 && ActiveVirus.get(3).col==5)
 //				System.out.println(nowVirus);
 			
+			if(total>=blankNum) {
+				//return second-2;
+				return nowVirus.count;
+			}
+			
 			for(int i=0;i<4;i++) {
 				int newRow = nowVirus.row + dRow[i];
 				int newCol = nowVirus.col + dCol[i];
@@ -130,12 +135,8 @@ class Boj17142_연구소3 {
 						queue.add(new Point(newRow,newCol,nowVirus.count+1)); //비활성바이러스의 경우 큐에 추가
 					}
 				}
-				
-				if(total>=blankNum) {
-					//return second-2;
-					return nowVirus.count-1;
-				}
 			}			
+			
 //			if(ActiveVirus.get(0).row==1 && ActiveVirus.get(0).col==3 && ActiveVirus.get(1).row==2 && ActiveVirus.get(1).col==6
 //					&& ActiveVirus.get(2).row==4 && ActiveVirus.get(2).col==1 && ActiveVirus.get(3).row==7 && ActiveVirus.get(3).col==5)
 //				printMap();	
