@@ -40,7 +40,7 @@ public class Boj17144_미세먼지안녕 {
         	}
         }
         
-        for(int t=0;t<T;t++) {
+        for(int t=0;t<T;t++) { //T초동안
         	 Plus = new int[R+1][C+1];
              Minus = new int[R+1][C+1];
         	//확산
@@ -69,21 +69,51 @@ public class Boj17144_미세먼지안녕 {
               	}
              }
             // printMap();
-        	
+
              //공기청정기
-            for(int i=A-2;i>=1;i--) {
-            	Map[i+1][1] = Map[i][1];
+//            for(int i=A-2;i>=1;i--) {
+//            	Map[i+1][1] = Map[i][1]; //아래로 밀기
+//            }
+//            for(int j=2;j<=C;j++) {
+//            	Map[1][j-1] = Map[1][j]; //왼쪽으로 밀기
+//            }
+//            for(int i=2;i<=A;i++) {
+//            	Map[i-1][C] = Map[i][C]; //위로 밀기
+//            }
+//            for(int i=C-1;i>=2;i--) {
+//            	Map[A][i+1] = Map[A][i]; //오른쪽으로 밀기
+//            }
+//            Map[A][2] = 0;
+            printMap();
+            int tmp = Map[A][1];
+            for(int i=A-1;i>=1;i--){
+                Map[i+1][1] = Map[i][1]; //아래로밀기
             }
-            for(int i=2;i<=C;i++) {
-            	Map[1][i-1] = Map[1][i];
+            for(int j=2;j<=C;j++){ //왼쪽으로밀기
+                Map[1][j-1] = Map[1][j];
             }
-            for(int i=2;i<=A;i++) {
-            	Map[i-1][C] = Map[i][C];
+            for(int i=2;i<=A;i++){
+                Map[i-1][C] = Map[i][C];
             }
-            for(int i=C-1;i>=2;i--) {
-            	Map[A][i+1] = Map[A][i];
+            for(int j=C-1;j>=1;j--){
+                Map[A][j+1] = Map[A][j];
             }
-            Map[A][2] = 0;
+            Map[A][2] = tmp;
+
+            for(int j=2;j<=C;j++){
+                Map[A][j-1] = Map[A][j];
+            }
+            for(int i=A-1;i>=1;i--){
+                Map[i+1][C] = Map[i][C];
+            }
+            for(int j=C-1;j>=1;j--){
+                Map[1][j+1] = Map[1][j];
+            }
+            for(int i=2;i<=A-1;i++){
+                Map[i-1][1] = Map[i][1];
+            }
+            Map[A][2] = tmp;
+            printMap();
             
             for(int i=B+2;i<=R;i++) { //위로밀기
             	Map[i-1][1] = Map[i][1];
@@ -101,7 +131,7 @@ public class Boj17144_미세먼지안녕 {
             Map[B][2] = 0;
            
             //printMap();
-            
+
         }
         for(int i=1;i<R+1;i++) {
         	for(int j=1;j<C+1;j++) {

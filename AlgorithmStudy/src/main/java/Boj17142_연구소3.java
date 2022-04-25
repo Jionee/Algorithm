@@ -90,9 +90,9 @@ class Boj17142_연구소3 {
 		//visit 방문처리
 		int total = 0;
 		
-		visit = new int[N+1][N+1];
+		visit = new int[N+1][N+1]; //각 조합마다 따로 쓰여야 함, 원본 Map은 건드리면 안됨. (다른곳에서도 써야함)
 		
-		for(int i=1;i<N+1;i++) {
+		for(int i=1;i<N+1;i++) { //visit 초기화
 			for(int j=1;j<N+1;j++) {
 				int tmp = Map[i][j];
 				if(tmp==2) {
@@ -104,12 +104,16 @@ class Boj17142_연구소3 {
 		for(Point now:ActiveVirus) {
 			visit[now.row][now.col] = 99; //활성바이러스
 		}
-		
-		int time = 0;
-		Queue<Point> queue = new LinkedList<>(ActiveVirus);
-		//System.out.println(queue);
+
+		int time = -1;
+		Queue<Point> queue = new LinkedList<>();
+		for(Point active:ActiveVirus){
+			queue.add(new Point(active.row,active.col,1)); //count 1로 초기화
+		}
+
 		while(!queue.isEmpty()) {
 			Point nowVirus = queue.poll();
+<<<<<<< HEAD
 //			if(ActiveVirus.get(0).row==1 && ActiveVirus.get(0).col==3 && ActiveVirus.get(1).row==2 && ActiveVirus.get(1).col==6
 //					&& ActiveVirus.get(2).row==4 && ActiveVirus.get(2).col==1 && ActiveVirus.get(3).row==7 && ActiveVirus.get(3).col==5)
 //				System.out.println(nowVirus);
@@ -119,31 +123,41 @@ class Boj17142_연구소3 {
 				return nowVirus.count;
 			}
 			
+=======
+			if(total>=blankNum) { //먼저 만족했는지 확인하고
+				return time;
+			}
+			time = Math.max(time,nowVirus.count); //time 갱신하기
+
+>>>>>>> 66ec4fdd9182de2a468819eb59f9732aa1bb1a35
 			for(int i=0;i<4;i++) {
 				int newRow = nowVirus.row + dRow[i];
 				int newCol = nowVirus.col + dCol[i];
 				if(0<newRow && newRow<=N && 0<newCol && newCol<=N) {
 					if(visit[newRow][newCol]==0) { //빈칸이라면
 						visit[newRow][newCol] = visit[nowVirus.row][nowVirus.col]+1; //빈칸 들름
-						//second = Math.max(second, visit[newRow][newCol]);
 						total++;
 						queue.add(new Point(newRow,newCol,nowVirus.count+1));
-						//System.out.println("TOTAL : "+total);
 					}
 					else if(visit[newRow][newCol]==-99) { //비활성바이러스라면
-						visit[newRow][newCol] = visit[nowVirus.row][nowVirus.col]+1; //빈칸 들름
+						visit[newRow][newCol] = 99; //빈칸 들름
 						queue.add(new Point(newRow,newCol,nowVirus.count+1)); //비활성바이러스의 경우 큐에 추가
 					}
 				}
+<<<<<<< HEAD
 			}			
 			
 //			if(ActiveVirus.get(0).row==1 && ActiveVirus.get(0).col==3 && ActiveVirus.get(1).row==2 && ActiveVirus.get(1).col==6
 //					&& ActiveVirus.get(2).row==4 && ActiveVirus.get(2).col==1 && ActiveVirus.get(3).row==7 && ActiveVirus.get(3).col==5)
 //				printMap();	
 
+=======
+			}
+>>>>>>> 66ec4fdd9182de2a468819eb59f9732aa1bb1a35
 		}
 		return -100;
 	}
+
 	static void printMap() {
 		System.out.println("=========");
 		for(int i=1;i<N+1;i++) {
