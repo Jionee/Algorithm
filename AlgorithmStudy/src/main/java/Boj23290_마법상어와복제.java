@@ -28,12 +28,15 @@ public class Boj23290_마법상어와복제 {
 				Map[i][j] = new ArrayList<>();
 			}
 		}
+		
+		ArrayList<Fish> list = new ArrayList<>();
 		for(int m=0;m<M;m++) {
 			st = new StringTokenizer(br.readLine());
 			int row = Integer.parseInt(st.nextToken());
 			int col = Integer.parseInt(st.nextToken());
 			int dir = Integer.parseInt(st.nextToken());
 			Map[row][col].add(new Fish(dir%8,false)); //물고기 살아있어요
+			list.add(new Fish(dir%8,false));
 		}			
 		st = new StringTokenizer(br.readLine());
 		Shark shark = new Shark(Integer.parseInt(st.nextToken()),Integer.parseInt(st.nextToken()));
@@ -71,14 +74,14 @@ public class Boj23290_마법상어와복제 {
 //			}
 //			System.out.println();
 //		}
-//		System.out.println("=="+count+"==처음MAP=====");
-//		printMap(Map);
+		System.out.println("=="+count+"==처음MAP=====");
+		printMap(Map);
 		
 		//1. Map의 물고기 이동
 		
-		ArrayList<Fish>[][] moveMap = moveFish(Map,shark);
-//		System.out.println("=="+count+"==물고기이동끝=====");
-//		printMap(moveMap);
+		ArrayList<Fish>[][] moveMap = moveFish2(Map,shark);
+		System.out.println("=="+count+"==물고기이동끝=====");
+		printMap(moveMap);
 		
 		//true인애들 삭제
 //		for(int i=1;i<5;i++) {
@@ -109,7 +112,7 @@ public class Boj23290_마법상어와복제 {
 		
 		Shark newShark = realMoveShark(track, shark.row, shark.col, moveMap);
 //		System.out.println("=="+count+"==상어진짜이동끝=====");
-//		System.out.println(shark +"-->"+newShark);
+		System.out.println(shark +"-->"+newShark);
 //		printMap(moveMap);
 
 		
@@ -242,6 +245,74 @@ public class Boj23290_마법상어와복제 {
 		return copyMap;
 	}
 	
+	static ArrayList<Fish>[][] moveFish2(ArrayList<Fish>[][] Map, Shark shark) {
+		ArrayList<fishCoord> copyList = copyList(Map);
+		ArrayList<fishCoord> list = new ArrayList<>();
+		
+		for(fishCoord fish:copyList) {
+			if(!fish.isDie) {
+				for(int d=0;d<9;d++) {
+					int nowDir = (fish.dir - d) % 8 < 0 ? 8 + (fish.dir - d) % 8 : (fish.dir - d) % 8;
+					int newRow = fish.row + dRow[nowDir];
+					int newCol = fish.col + dCol[nowDir];
+	
+					if(1<=newRow && newRow<5 && 1<=newCol && newCol<5) {
+						if(!(newRow==shark.row && newCol==shark.col)) {
+							if(smell[newRow][newCol]==0) {
+								//System.out.println(fish+"---->"+newRow+","+newCol+"   DIR:"+nowDir);
+								//fish.isDie = true; //기존 물고기 없애기
+								//copyMap[i][j].get(f).isDie = true;
+								list.add(new fishCoord(newRow,newCol,nowDir,false)); //새로운 물고기 생성
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		ArrayList<Fish>[][] Map2 = new ArrayList[5][5];
+		for(int i=1;i<5;i++) {
+			for(int j=1;j<5;j++) {
+				Map2[i][j] = new ArrayList<>();
+			}
+		}
+		for(fishCoord fish:list) {
+			Map2[fish.row][fish.col].add(new Fish(fish.dir,fish.isDie));
+		}
+		
+		return Map2;
+	}
+	
+	
+	static ArrayList<fishCoord> copyList(ArrayList<Fish>[][] Map){
+		ArrayList<fishCoord> copyList = new ArrayList<>();
+		for(int i=1;i<5;i++) {
+			for(int j=1;j<5;j++) {
+				for(Fish fish:Map[i][j]) {
+					//if(!fish.isDie) {
+						copyList.add(new fishCoord(i,j,fish.dir,fish.isDie));
+					//}
+				}
+			}
+		}
+		return copyList;
+	}
+	
+	static class fishCoord{
+		int row;
+		int col;
+		int dir;
+		boolean isDie;
+		public fishCoord(int row, int col, int dir, boolean isDie) {
+			super();
+			this.row = row;
+			this.col = col;
+			this.dir = dir;
+			this.isDie = isDie;
+		}
+		
+	}
 	static ArrayList<Fish>[][] copyMap(ArrayList<Fish>[][] Map){
 		ArrayList<Fish>[][] copyMap = new ArrayList[5][5];
 		for(int i=1;i<5;i++) {
