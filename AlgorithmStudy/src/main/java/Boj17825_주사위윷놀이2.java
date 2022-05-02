@@ -50,12 +50,9 @@ public class Boj17825_주사위윷놀이2 {
     static int gameStart(){
         int score = 0;
         //Order, Dice 가 주어짐. Order[i] i번째에 존재하는 말(1~4)이 Dice만큼 이동
-        //이동하는 index가 뭐냐에 따라 blue인지 그냥인지가 결정됨
         boolean[] Goal = new boolean[5];
 
-
         for(int t=1;t<11;t++){
-            //System.out.println(Arrays.toString(Mal));
             int dice = Dice[t]; //1~5
             int nowMalIndex = Order[t]; //1~4
             Node nowMal = Mal[nowMalIndex]; //지금 어느 노드에 있는지 -> dice만큼 이동시키기
