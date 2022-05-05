@@ -113,23 +113,10 @@ class Boj17142_연구소3 {
 
 		while(!queue.isEmpty()) {
 			Point nowVirus = queue.poll();
-<<<<<<< HEAD
-//			if(ActiveVirus.get(0).row==1 && ActiveVirus.get(0).col==3 && ActiveVirus.get(1).row==2 && ActiveVirus.get(1).col==6
-//					&& ActiveVirus.get(2).row==4 && ActiveVirus.get(2).col==1 && ActiveVirus.get(3).row==7 && ActiveVirus.get(3).col==5)
-//				System.out.println(nowVirus);
-			
-			if(total>=blankNum) {
-				//return second-2;
-				return nowVirus.count;
-			}
-			
-=======
 			if(total>=blankNum) { //먼저 만족했는지 확인하고
 				return time;
 			}
 			time = Math.max(time,nowVirus.count); //time 갱신하기
-
->>>>>>> 66ec4fdd9182de2a468819eb59f9732aa1bb1a35
 			for(int i=0;i<4;i++) {
 				int newRow = nowVirus.row + dRow[i];
 				int newCol = nowVirus.col + dCol[i];
@@ -144,16 +131,7 @@ class Boj17142_연구소3 {
 						queue.add(new Point(newRow,newCol,nowVirus.count+1)); //비활성바이러스의 경우 큐에 추가
 					}
 				}
-<<<<<<< HEAD
-			}			
-			
-//			if(ActiveVirus.get(0).row==1 && ActiveVirus.get(0).col==3 && ActiveVirus.get(1).row==2 && ActiveVirus.get(1).col==6
-//					&& ActiveVirus.get(2).row==4 && ActiveVirus.get(2).col==1 && ActiveVirus.get(3).row==7 && ActiveVirus.get(3).col==5)
-//				printMap();	
-
-=======
 			}
->>>>>>> 66ec4fdd9182de2a468819eb59f9732aa1bb1a35
 		}
 		return -100;
 	}
