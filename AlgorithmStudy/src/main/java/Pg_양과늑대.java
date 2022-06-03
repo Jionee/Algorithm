@@ -5,9 +5,10 @@ public class Pg_양과늑대 {
 
     public static void main(String[] args) throws Exception{
         //input
-        int[] info = {0,1,0,1,1,0,1,0,0,1,0};
-        int[][] edges = {{0,1},{0,2},{1,3},{1,4},{2,5},{2,6},{3,7},{4,8},{6,9},{9,10}};
-        Solution.solution(info, edges);
+        int[] info = {0,1};
+        int[][] edges = {{0,1}};
+        int answer = Solution.solution(info, edges);
+        System.out.println(answer);
     }
 
     static class Solution {
@@ -15,12 +16,10 @@ public class Pg_양과늑대 {
         static Point[] Animal;
         static int N;
         static int answer = 0;
-        static boolean[] visit;
-        static ArrayList<Integer> root = new ArrayList<>();
+
         public static int solution(int[] info, int[][] edges) {
             N = info.length;
             Animal = new Point[info.length];
-            visit = new boolean[N];
 
             for(int i=0;i<info.length;i++){
                 Animal[i] = new Point(i,info[i]);
@@ -32,87 +31,46 @@ public class Pg_양과늑대 {
                 Animal[p].child.add(c);
                 Animal[c].parent = p;
             }
-            //System.out.println(Arrays.toString(Animal));
 
-            visit[0] = true;
-            dfs(0,1,1,0);
-            System.out.println(answer);
+            ArrayList<Integer> nextNode = new ArrayList<>();
+            nextNode.add(0);
+            dfs2(0, nextNode,0,0);
+
             return answer;
         }
-        /**/
-        static void dfs(int index, int count, int sheep, int wolf){
-            root.add(index);
 
-            //System.out.println("====="+root);
-            if(sheep <= wolf){
-                System.out.println("##"+root+" sheep:"+sheep+" ,wolf:"+wolf+" , count:"+count);
-                answer = Math.max(answer, sheep);
+        static void dfs2(int index, ArrayList<Integer> nextNode, int sheep, int wolf){
+            //양, 늑대 파악 후 수 늘려주기
+            int newSheep = sheep;
+            int newWolf = wolf;
+            if(Animal[index].whom == 0){ //양이면
+                newSheep += 1;
+            }
+            else if(Animal[index].whom == 1){
+                newWolf += 1;
+            }
+
+            //어차피 최대 양의 수를 찾는 것이므로 리턴할 때만 갱신하는 것이 아니라 노드를 방문했을 때 항상 갱신한다.
+            answer = Math.max(answer, newSheep);
+
+            if(newSheep <= newWolf){ //늑대한테 잡아먹히면 중지
                 return;
             }
-            if(count>=25){
-                //System.out.println(root+" sheep:"+sheep+" ,wolf:"+wolf+" , count:"+count);
-                answer = Math.max(answer, sheep);
-                return;
-            }
-            if(index==0){
-                boolean flag = false;
-                for(int c:Animal[0].child){
-                    if(!visit[c]){
-                        flag = true;
-                        break;
-                    }
-                }
-                if(!flag){
-                    //System.out.println("XX"+root+" sheep:"+sheep+" ,wolf:"+wolf+" , count:"+count);
-                    answer = Math.max(answer, sheep);
-                    return;
-                }
+
+            //다음에 갈 수 있는 노드 업데이트
+            ArrayList<Integer> newNode = new ArrayList<>();
+            newNode.addAll(nextNode);
+            for(int c: Animal[index].child){
+                newNode.add(c); //자식 추가
             }
 
-            ArrayList<Integer> child = Animal[index].child;
-            //System.out.println("PARENT:"+index +" => CHILD:"+child);
+            //자기 자신은 갔으니까 제거
+            newNode.remove(Integer.valueOf(index)); //Integer.valueOf(index)를 써서 list 를 제거하면 값으로 제거된다.
 
-            for(int c: child){
-                //System.out.println("CHILD:"+c + " "+visit[c]);
-                //root.add(c);
-
-                if(!visit[c]){
-                    int nowSheep = sheep;
-                    int nowWolf = wolf;
-
-                    if(Animal[c].whom == 0 && !visit[c]){ //양이면
-                        nowSheep += 1;
-                    }
-                    else if(Animal[c].whom == 1 && !visit[c]){
-                        nowWolf += 1;
-                    }
-                    //System.out.println("CHILD:"+c+"==>"+root+" sheep:"+nowSheep+" ,wolf:"+nowWolf+" , count:"+count);
-
-
-                    visit[c] = true;
-                    dfs(c, count+1,nowSheep,nowWolf);
-                    visit[c] = false;
-                }
-                //root.remove(root.size()-1);
+            //갈 수 있는 모든 노드 돌리기
+            for(int node: newNode){
+                dfs2(node, newNode, newSheep, newWolf);
             }
-
-            if(Animal[index].parent!=-1){
-                //root.add(Animal[index].parent);
-                dfs(Animal[index].parent, count+1, sheep, wolf); //부모
-                //root.remove(root.size()-1);
-            }
-            else{
-                for(int c:Animal[0].child){
-                    if(c!=index){
-                        //root.add(0);
-                        dfs(c, count+1, sheep, wolf); //부모
-                        //root.remove(root.size()-1);
-                    }
-                }
-            }
-            root.remove(root.size()-1);
-
-            return;
         }
 
         static class Point{
